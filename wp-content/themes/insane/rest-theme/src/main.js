@@ -5,6 +5,7 @@ Vue.use(require('vue-resource'));
 Vue.use(require('vue-moment'));
 Vue.use(VueRouter);
 
+// Default components
 import Posts from './posts.vue'
 import Post from './post.vue'
 Vue.component('Post', Post)
@@ -14,6 +15,10 @@ import Header from './theme-header.vue'
 Vue.component('theme-header', Header)
 import Footer from './theme-footer.vue'
 Vue.component('theme-footer', Footer)
+
+// Levels - ACF flexible content layouts
+import Intro from './levels/intro.vue'
+Vue.component('intro', Intro)
 
 // Base routes
 var routes = [

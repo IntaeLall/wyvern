@@ -21,8 +21,15 @@
             <h1 class="entry-title" v-if="isSingle">{{ post.title.rendered }}</h1>
             <h2 class="entry-title" v-else><router-link :to="{ path: base_path + post.slug }">{{ post.title.rendered }}</router-link></h2>
 
+            <!-- Levels -->
+            <div v-if="post.acf.levels" v-for="level in post.acf.levels">
+                <component :is="level.acf_fc_layout" :level="level"></component>
+            </div>
+
+            <!-- ACF test -->
             <img v-if="post.acf.banner" v-bind:src="post.acf.banner.url">
 
+            <!-- Entry meta filters -->
             <div class="entry-meta">
                 <span>{{ post.date | moment("lll") }}</span>
 
@@ -58,7 +65,7 @@
                 }
             },
             categories: {
-                type: Object,
+                type: Array,
                 default() {
                     return [];
                 }
