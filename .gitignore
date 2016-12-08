@@ -1,0 +1,9 @@
+.DS_Store
+wp-content/plugins/*
+wp-content/themes/*
+.idea
+composer.lock
+vendor
+.env
+
+!wp-content/themes/insane
