@@ -643,8 +643,8 @@ FileETag None
 # HIDE WP-CONTENT
 # USING ROOTS REWRITES ON THE WP END
 <IfModule mod_rewrite.c>
-  RewriteRule ^rest-theme/(.*)$ wp-content/themes/wp-rest-theme/rest-theme/$1 [L]
-  RewriteRule ^assets/(.*)$ wp-content/themes/wp-rest-theme/assets/$1 [L]
+  RewriteRule ^rest-theme/(.*)$ wp-content/themes/insane/rest-theme/$1 [L]
+  RewriteRule ^assets/(.*)$ wp-content/themes/insane/assets/$1 [L]
 </IfModule>
 
 # BEGIN WordPress
