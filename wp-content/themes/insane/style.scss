@@ -1,0 +1,154 @@
+/*
+Theme Name: WP REST Theme
+Theme URI: http://gilbert.pellegrom.me
+Author: Gilbert Pellegrom
+Author URI: http://gilbert.pellegrom.me
+Description: A theme powered by the WordPress REST API and Vue.js
+Version: 1.0.0
+License: MIT
+*/
+
+$brand-primary: #191919;
+
+body {
+  font: 16px/1.6em 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #e6eaec;
+  color: #34495e;
+}
+
+a, a:visited {
+  color: #2a76d2;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: #2a76d2;
+  text-decoration: underline;
+}
+
+#content { display: none; }
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.header,
+.footer {
+  background: #fff;
+  padding: 30px 0;
+}
+
+.post,
+.page {
+  background: #fff;
+  padding: 30px;
+  margin-bottom: 50px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.entry-title {
+  font-size: 30px;
+  line-height: 1.3em;
+  margin: 0 0 30px;
+}
+
+/* Helpers */
+.pull-left { float: left; }
+.pull-right { float: right; }
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+.block { display: block; }
+
+/* Buttons */
+.btn {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+/* Mobile nav */
+.mobile-nav {
+  .nav {
+    margin: 0;
+    padding: 0;
+    li {
+      display: block;
+      a {
+        display: block;
+        text-align: left;
+        padding: 5px 10px;
+      }
+    }
+  }
+}
+
+/* Mega nav */
+.mega-nav {
+  position: fixed;
+  background-color: #fff;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 100px;
+
+  .nav {
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 3em;
+    li {
+      display: block;
+      margin-bottom: 0.5em;
+      a {
+        display: block;
+        padding: 5px 10px;
+      }
+    }
+  }
+  .router-link-active { color: #333; }
+}
+
+/* Burger */
+@import 'assets/styles/hamburger';
+
+/* Pace */
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  background: #29d;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 2px;
+}
+
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-active {
+  transform: translateX(10px);
+  opacity: 0;
+}

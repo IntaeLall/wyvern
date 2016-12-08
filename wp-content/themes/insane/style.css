@@ -1,0 +1,336 @@
+/*
+Theme Name: insane
+Theme URI: http://www.sanatorium.ninja
+Author: Sanatorium
+Author URI: http://www.sanatorium.ninja
+Description: Vue 2 based theme
+Version: 1.0.0
+License: MIT
+*/
+body {
+  font: 16px/1.6em 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #e6eaec;
+  color: #34495e; }
+
+a, a:visited {
+  color: #2a76d2;
+  text-decoration: none; }
+
+a:hover, a:focus {
+  color: #2a76d2;
+  text-decoration: underline; }
+
+#content {
+  display: none; }
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px; }
+
+.header,
+.footer {
+  background: #fff;
+  padding: 30px 0; }
+
+.post,
+.page {
+  background: #fff;
+  padding: 30px;
+  margin-bottom: 50px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); }
+
+.entry-title {
+  font-size: 30px;
+  line-height: 1.3em;
+  margin: 0 0 30px; }
+
+/* Helpers */
+.pull-left {
+  float: left; }
+
+.pull-right {
+  float: right; }
+
+.text-center {
+  text-align: center; }
+
+.text-left {
+  text-align: left; }
+
+.text-right {
+  text-align: right; }
+
+.block {
+  display: block; }
+
+/* Buttons */
+.btn {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent; }
+
+/* Mobile nav */
+.mobile-nav .nav {
+  margin: 0;
+  padding: 0; }
+  .mobile-nav .nav li {
+    display: block; }
+    .mobile-nav .nav li a {
+      display: block;
+      text-align: left;
+      padding: 5px 10px; }
+
+/* Mega nav */
+.mega-nav {
+  position: fixed;
+  background-color: #fff;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 100px; }
+  .mega-nav .nav {
+    list-style-type: none;
+    padding-left: 0;
+    font-size: 3em; }
+    .mega-nav .nav li {
+      display: block;
+      margin-bottom: 0.5em; }
+      .mega-nav .nav li a {
+        display: block;
+        padding: 5px 10px; }
+  .mega-nav .router-link-active {
+    color: #333; }
+
+/* Burger */
+/* -----------------------------------------------------------------------------
+
+  HAMBURGER ICONS COMPONENT
+
+----------------------------------------------------------------------------- */
+/**
+ * Toggle Switch Globals
+ *
+ * All switches should take on the class `c-hamburger` as well as their
+ * variant that will give them unique properties. This class is an overview
+ * class that acts as a reset for all versions of the icon.
+ */
+.c-hamburger {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  font-size: 0;
+  text-indent: -9999px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s; }
+
+.c-hamburger:focus {
+  outline: none; }
+
+.c-hamburger span {
+  display: block;
+  position: absolute;
+  top: 13px;
+  left: 0px;
+  right: 0px;
+  height: 2px;
+  background: #191919; }
+
+.c-hamburger span::before,
+.c-hamburger span::after {
+  position: absolute;
+  display: block;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #191919;
+  content: ""; }
+
+.c-hamburger span::before {
+  top: -5px; }
+
+.c-hamburger span::after {
+  bottom: -5px; }
+
+/**
+ * Style 1
+ *
+ * Rotating hamburger icon (rot), that simply rotates 90 degrees when activated.
+ * Nothing too fancy, simple transition.
+ */
+.c-hamburger--rot {
+  background-color: #28aadc; }
+
+.c-hamburger--rot span {
+  transition: transform 0.3s; }
+
+/* active state, i.e. menu open */
+.c-hamburger--rot.is-active {
+  background-color: #166888; }
+
+.c-hamburger--rot.is-active span {
+  transform: rotate(90deg); }
+
+/**
+ * Style 2
+ *
+ * Hamburger to "x" (htx). Takes on a hamburger shape, bars slide
+ * down to center and transform into an "x".
+ */
+.c-hamburger--htx {
+  background-color: transparent; }
+
+.c-hamburger--htx span {
+  transition: background 0s 0.3s; }
+
+.c-hamburger--htx span::before,
+.c-hamburger--htx span::after {
+  transition-duration: 0.3s, 0.3s;
+  transition-delay: 0.3s, 0s; }
+
+.c-hamburger--htx span::before {
+  transition-property: top, transform; }
+
+.c-hamburger--htx span::after {
+  transition-property: bottom, transform; }
+
+/* active state, i.e. menu open */
+.c-hamburger--htx.is-active span {
+  background: none; }
+
+.c-hamburger--htx.is-active span::before {
+  top: 0;
+  transform: rotate(45deg); }
+
+.c-hamburger--htx.is-active span::after {
+  bottom: 0;
+  transform: rotate(-45deg); }
+
+.c-hamburger--htx.is-active span::before,
+.c-hamburger--htx.is-active span::after {
+  transition-delay: 0s, 0.3s; }
+
+/**
+ * Style 3
+ *
+ * Hamburger to left-arrow (htla). Hamburger menu transforms to a left-pointing
+ * arrow. Usually indicates an off canvas menu sliding in from left that
+ * will be close on re-click of the icon.
+ */
+.c-hamburger--htla {
+  background-color: #32dc64; }
+
+.c-hamburger--htla span {
+  transition: transform 0.3s; }
+
+.c-hamburger--htla span::before {
+  transform-origin: top right;
+  transition: transform 0.3s, width 0.3s, top 0.3s; }
+
+.c-hamburger--htla span::after {
+  transform-origin: bottom right;
+  transition: transform 0.3s, width 0.3s, bottom 0.3s; }
+
+/* active state, i.e. menu open */
+.c-hamburger--htla.is-active {
+  background-color: #19903c; }
+
+.c-hamburger--htla.is-active span {
+  transform: rotate(180deg); }
+
+.c-hamburger--htla.is-active span::before,
+.c-hamburger--htla.is-active span::after {
+  width: 50%; }
+
+.c-hamburger--htla.is-active span::before {
+  top: 0;
+  transform: translateX(16px) translateY(1px) rotate(45deg); }
+
+.c-hamburger--htla.is-active span::after {
+  bottom: 0;
+  transform: translateX(16px) translateY(-1px) rotate(-45deg); }
+
+/**
+ * Style 4
+ *
+ * Hamburger to right-arrow (htra). Hamburger menu transforms to a
+ * right-pointing arrow. Usually indicates an off canvas menu sliding in from
+ * right that will be close on re-click of the icon.
+ */
+.c-hamburger--htra {
+  background-color: #ff9650; }
+
+.c-hamburger--htra span {
+  transition: transform 0.3s; }
+
+.c-hamburger--htra span::before {
+  transform-origin: top left;
+  transition: transform 0.3s, width 0.3s, top 0.3s; }
+
+.c-hamburger--htra span::after {
+  transform-origin: bottom left;
+  transition: transform 0.3s, width 0.3s, bottom 0.3s; }
+
+/* active state, i.e. menu open */
+.c-hamburger--htra.is-active {
+  background-color: #e95d00; }
+
+.c-hamburger--htra.is-active span {
+  transform: rotate(180deg); }
+
+.c-hamburger--htra.is-active span::before,
+.c-hamburger--htra.is-active span::after {
+  width: 50%; }
+
+.c-hamburger--htra.is-active span::before {
+  top: 0;
+  transform: translateX(-2px) translateY(1px) rotate(-45deg); }
+
+.c-hamburger--htra.is-active span::after {
+  bottom: 0;
+  transform: translateX(-2px) translateY(-1px) rotate(45deg); }
+
+/* Pace */
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none; }
+
+.pace-inactive {
+  display: none; }
+
+.pace .pace-progress {
+  background: #29d;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 2px; }
+
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.slide-fade-enter-active {
+  transition: all .3s ease; }
+
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1); }
+
+.slide-fade-enter, .slide-fade-leave-active {
+  transform: translateX(10px);
+  opacity: 0; }
