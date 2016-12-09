@@ -23,32 +23,35 @@ add_theme_support( 'menus' );
 */
 
 function rest_theme_scripts() {
-	wp_enqueue_style( 'normalize', get_template_directory_uri() . '/assets/normalize.css', false, '3.0.3' );
-	wp_enqueue_style( 'style', get_stylesheet_uri(), array( 'normalize' ) );
+    wp_enqueue_style( 'normalize', get_template_directory_uri() . '/assets/normalize.css', false, '3.0.3' );
+    wp_enqueue_style( 'style', get_stylesheet_uri(), array( 'normalize' ) );
 
-	$base_url  = esc_url_raw( home_url() );
-	$base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
+    $base_url  = esc_url_raw( home_url() );
+    $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
 
     wp_enqueue_script( 'pace', get_template_directory_uri() . '/assets/js/pace.min.js', array(), '1.0.0', true );
-	wp_enqueue_script( 'rest-theme-vue', get_template_directory_uri() . '/rest-theme/dist/build.js', array(), '1.0.0', true );
-	wp_localize_script( 'rest-theme-vue', 'wp', array(
-		'root'          => esc_url_raw( rest_url() ),
-		'base_url'      => $base_url,
-		'base_path'     => $base_path ? $base_path . '/' : '/',
-		'nonce'         => wp_create_nonce( 'wp_rest' ),
-		'site_name'     => get_bloginfo( 'name' ),
-		'routes'        => rest_theme_routes(),
+    wp_enqueue_script( 'rest-theme-vue', get_template_directory_uri() . '/rest-theme/dist/build.js', array(), '1.0.0', true );
+    wp_localize_script( 'rest-theme-vue', 'wp', array(
+        'root'          => esc_url_raw( rest_url() ),
+        'base_url'      => $base_url,
+        'base_path'     => $base_path ? $base_path . '/' : '/',
+        'nonce'         => wp_create_nonce( 'wp_rest' ),
+        'site_name'     => get_bloginfo( 'name' ),
+        'routes'        => rest_theme_routes(),
         'assets_path'   => get_template_directory_uri() . '/assets/',
         'lang'          => get_language_strings(),
 
         // Inline configurations
+        'show_on_front' => get_option('show_on_front'), // (posts|page) Settings -> Reading -> Front page displays
+        'page_on_front' => get_option('page_on_front'), // (int) Settings -> Reading -> Front page displays when "page" is selected and type is "Front page"
+        'page_for_posts'=> get_option('page_for_posts'), // (int) Settings -> Reading -> Front page displays when "page" is selected and type is "Posts page"
         'logo'          => true,    // Show image logo
         'megamenu'      => true,    // Use mega menu
+
     ) );
 }
 
 add_action( 'wp_enqueue_scripts', 'rest_theme_scripts' );
-
 
 function get_language_strings() {
     return [
@@ -66,30 +69,33 @@ function get_language_strings() {
 */
 
 function rest_theme_routes() {
-	$routes = array();
+    $routes = array();
 
-	$query = new WP_Query( array(
-		'post_type'      => 'any',
-		'post_status'    => 'publish',
-		'posts_per_page' => -1,
-	) );
+    $query = new WP_Query( array(
+        'post_type'      => 'any',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+    ) );
 
-	if ( $query->have_posts() ) {
-		while ( $query->have_posts() ) {
-			$query->the_post();
-			$routes[] = array(
-				'id'   => get_the_ID(),
-				'type' => get_post_type(),
-				'slug' => basename( get_permalink() ),
+    if ( $query->have_posts() ) {
+        while ( $query->have_posts() ) {
+            $query->the_post();
+            $routes[] = array(
+                'id'   => get_the_ID(),
+                'type' => get_post_type(),
+                'slug' => basename( get_permalink() ),
                 'link' => str_replace( site_url(), '', get_permalink() ),
-			);
-		}
-	}
+            );
+        }
+    }
 
-	wp_reset_postdata();
+    wp_reset_postdata();
 
-	return $routes;
+    return $routes;
 }
+
+// Hide admin bar until links in Edit page are eventually resolved
+show_admin_bar(false);
 
 /*
 |--------------------------------------------------------------------------
@@ -130,7 +136,11 @@ function slug_register_acf() {
 }
 function slug_get_acf( $object, $field_name, $request ) {
     if ( function_exists('get_fields') )
-        return get_fields($object[ 'id' ]);
-    else
+    {
+        $fields = get_fields($object[ 'id' ]);
+        return $fields !== false ? $fields : [];
+    } else
+    {
         return [];
+    }
 }

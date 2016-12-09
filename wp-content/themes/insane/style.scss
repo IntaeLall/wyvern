@@ -1,9 +1,9 @@
 /*
-Theme Name: WP REST Theme
-Theme URI: http://gilbert.pellegrom.me
-Author: Gilbert Pellegrom
-Author URI: http://gilbert.pellegrom.me
-Description: A theme powered by the WordPress REST API and Vue.js
+Theme Name: insane
+Theme URI: http://www.sanatorium.ninja
+Author: Sanatorium
+Author URI: http://www.sanatorium.ninja
+Description: Vue 2 based WP theme
 Version: 1.0.0
 License: MIT
 */
@@ -24,6 +24,10 @@ a, a:visited {
 a:hover, a:focus {
   color: #2a76d2;
   text-decoration: underline;
+}
+
+.router-link-active {
+  color: $color-orchid;
 }
 
 #content { display: none; }
@@ -61,6 +65,7 @@ a:hover, a:focus {
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 .block { display: block; }
+.hidden { display: none!important }
 
 /* Buttons */
 .btn {
@@ -96,6 +101,7 @@ a:hover, a:focus {
   right: 0;
   bottom: 0;
   top: 100px;
+  z-index: 1999;
 
   .nav {
     list-style-type: none;
@@ -140,8 +146,8 @@ a:hover, a:focus {
   height: 2px;
 }
 
-/* Enter and leave animations can use different */
-/* durations and timing functions.              */
+/* Transitions */
+/* slide-fade */
 .slide-fade-enter-active {
   transition: all .3s ease;
 }
@@ -151,4 +157,12 @@ a:hover, a:focus {
 .slide-fade-enter, .slide-fade-leave-active {
   transform: translateX(10px);
   opacity: 0;
+}
+
+/* fade */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
 }

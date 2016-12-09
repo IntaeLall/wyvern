@@ -16,17 +16,44 @@ Vue.component('theme-header', Header)
 import Footer from './theme-footer.vue'
 Vue.component('theme-footer', Footer)
 
+// Layout partials
+import Levels from './levels.vue'
+Vue.component('levels', Levels)
+
 // Levels - ACF flexible content layouts
 import Intro from './levels/intro.vue'
 Vue.component('intro', Intro)
 
 // Base routes
-var routes = [
-    {
+var routes = [];
+
+// Front page displays == Your latest posts
+if ( wp.show_on_front == 'posts' ) {
+    routes.push({
         path: wp.base_path,
         component: Posts
+    });
+}
+
+// Front page displays == A static page
+if ( wp.show_on_front == 'page' ) {
+
+    if ( wp.page_on_front != 0 ) {
+        // type is "Front page"
+        routes.push({
+            path     : wp.base_path,
+            component: Page,
+            meta: { postId: wp.page_on_front }
+        });
+    } else if ( wp.page_on_front != 0 ) {
+        // type is "Posts page"
+        routes.push({
+            path     : wp.base_path,
+            component: Post,
+            meta: { postId: wp.page_for_posts }
+        });
     }
-];
+}
 
 // Dynamically generated routes
 wp.routes.forEach(function (wproute) {
@@ -59,10 +86,10 @@ var App = new Vue({
     el: '#app',
 
     template: '<div class="template-wrapper">' +
-                '<theme-header></theme-header>' +
-                '<div class="container"><router-view></router-view></div>' +
-                '<theme-footer></theme-footer>' +
-                '</div>',
+    '<theme-header></theme-header>' +
+    '<div class="container"><router-view></router-view></div>' +
+    '<theme-footer></theme-footer>' +
+    '</div>',
 
     router: router,
 

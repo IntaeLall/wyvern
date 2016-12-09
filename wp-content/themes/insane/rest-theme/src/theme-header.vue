@@ -20,7 +20,6 @@
         display: inline;
         margin-left: 15px;
     }
-    .header .router-link-active { color: #333; }
     .site-title, .site-title a {
         height: 40px;
     }

@@ -45,9 +45,11 @@
       <h1 class="level-intro-title">{{ level.title }}</h1>
       <h2 class="level-intro-subtitle">{{ level.subtitle }}</h2>
 
-      <div class="embed-container" v-if="level.video && show_video">
-        <iframe :src="level.video" frameborder="0" webkit-allow-full-screen mozallowfullscreen allowfullscreen></iframe>
-      </div>
+      <transition name="fade">
+        <div class="embed-container" v-if="level.video && show_video">
+          <iframe :src="level.video" frameborder="0" webkit-allow-full-screen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+      </transition>
 
       <button type="button" @click="show_video = !show_video" class="level-intro-btn">
         {{ level.button_label }}

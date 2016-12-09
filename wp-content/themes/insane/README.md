@@ -8,6 +8,10 @@ npm run dev
 npm run build
 ```
 
+### Levels
+
+- Intro
+
 ### Credits
 
 Some of the libraries used in the making of this theme:

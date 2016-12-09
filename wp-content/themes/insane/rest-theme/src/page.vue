@@ -5,6 +5,8 @@
 <template>
     <transition name="slide-fade">
         <div class="page" v-show="page.id">
+            <component is="levels" :object="page"></component>
+
             <h1 class="entry-title">{{ page.title.rendered }}</h1>
 
             <div class="entry-content" v-html="page.content.rendered">

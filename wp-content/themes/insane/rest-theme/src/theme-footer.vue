@@ -1,9 +1,5 @@
 <style>
-    .footer {
-        font-size: 14px;
-        color: #999;
-        margin-top: 50px;
-    }
+
 </style>
 
 <template>
