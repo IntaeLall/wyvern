@@ -1,7 +1,6 @@
 <style>
     .header {
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-        margin-bottom: 50px;
     }
     .header .container {
         display: flex;
@@ -18,7 +17,6 @@
     }
     .header .nav li {
         display: inline;
-        margin-left: 15px;
     }
     .site-title, .site-title a {
         height: 40px;
@@ -41,6 +39,9 @@
                          v-bind:alt="site_name"
                          height="40">
                     </router-link>
+                </div>
+                <div class="search">
+                    <input type="search" v-model="search" placeholder="Search">
                 </div>
                 <ul class="nav">
                     <li v-for="item in menu">
@@ -66,13 +67,26 @@
             <div class="mega-nav" v-show="show_menu && megamenu">
                 <div class="container">
                     <ul class="nav">
-                        <li v-for="item in menu">
+                        <li v-for="item in mega">
                             <router-link :to="{ path: url2Slug(item.url) }">{{ item.title }}</router-link>
                         </li>
                     </ul>
                 </div>
             </div>
         </transition>
+
+        <transition name="slide-fade">
+            <div class="mega-search" v-if="show_search">
+                <div v-for="result in search_results" class="search-result">
+                    <h3 class="search-result-title">
+                        <router-link :to="{ path: url2Slug(result.link) }" v-html="highlightSearch(result.title.rendered)"></router-link>
+                    </h3>
+                    <div class="search-result-content" v-html="highlightSearch(result.excerpt.rendered)">
+                    </div>
+                </div>
+            </div>
+        </transition>
+
     </div>
 </template>
 
@@ -80,7 +94,16 @@
     export default {
         mounted() {
             this.getPages();
-            this.getMenuLocation('primary');
+
+            var self = this;
+
+            this.getMenuLocation('primary', function(data){
+                self.menu = data;
+            });
+
+            this.getMenuLocation('mega', function(data){
+                self.mega = data;
+            });
         },
 
         data() {
@@ -92,31 +115,39 @@
                 megamenu: wp.megamenu,
                 pages: [],
                 menu: [],
+                mega: [],
                 lang: wp.lang,
-                show_menu: false
+                show_menu: false,
+                search: '',
+                search_results: [],
+                show_search: false,
             }
         },
 
         methods: {
-            getPages() {
-                this.$http.get(wp.root + 'wp/v2/pages').then(function(response) {
-                    this.pages = response.data;
-                }, function(response) {
-                    console.log(response);
-                });
-            },
-            getMenuLocation(location) {
-                this.$http.get(wp.root + 'wp-api-menus/v2/menu-locations/' + location).then(function(response) {
-                    this.menu = response.data;
-                }, function(response) {
-                    console.log(response);
-                });
-            },
-            url2Slug(url) {
-                return url.replace(/^.*\/\/[^\/]+/, '')
-            },
             hideMenu() {
                 this.show_menu = false;
+            },
+            highlightSearch(input) {
+                return input.replace(this.search, '<span class="search-highlight">' + this.search + '</span>')
+            }
+        },
+
+        watch: {
+            search: function(val, oldVal){
+
+                if ( val.length > 0 )
+                {
+                    var self = this;
+                    this.show_search = true;
+                    this.getSearch(val, function(data){
+                        self.search_results = data;
+                    });
+                } else {
+                    this.search_results = [];
+                    this.show_search = false;
+                }
+
             }
         },
 

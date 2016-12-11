@@ -8,3 +8,4 @@ vendor
 .env
 
 !wp-content/themes/insane
+!wp-content/themes/insane-child

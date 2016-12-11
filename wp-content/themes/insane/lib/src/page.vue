@@ -4,12 +4,14 @@
 
 <template>
     <transition name="slide-fade">
-        <div class="page" v-show="page.id">
+        <div class="page content" v-show="page.id" :class="[page.slug, page.template]">
             <component is="levels" :object="page"></component>
 
-            <h1 class="entry-title">{{ page.title.rendered }}</h1>
+            <div class="container">
+                <h1 class="entry-title">{{ page.title.rendered }}</h1>
 
-            <div class="entry-content" v-html="page.content.rendered">
+                <div class="entry-content" v-html="page.content.rendered">
+                </div>
             </div>
         </div>
     </transition>
@@ -18,7 +20,12 @@
 <script>
     export default {
         mounted() {
-            this.getPage();
+            var self = this;
+            this.getPage(function(data){
+                self.page = data;
+                window.eventHub.$emit('page-title', self.page.title.rendered);
+                window.eventHub.$emit('track-ga');
+            });
         },
 
         data() {
@@ -34,15 +41,7 @@
         },
 
         methods: {
-            getPage() {
-                this.$http.get(wp.root + 'wp/v2/pages/' + this.$route.meta.postId).then(function(response) {
-                    this.page = response.data;
-                    window.eventHub.$emit('page-title', this.page.title.rendered);
-                    window.eventHub.$emit('track-ga');
-                }, function(response) {
-                    console.log(response);
-                });
-            }
+
         },
 
         route: {

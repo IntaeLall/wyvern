@@ -17,7 +17,7 @@
 
 <template>
     <transition name="slide-fade">
-        <div class="post" v-if="post.id">
+        <div class="post content" v-if="post.id" :class="post.slug">
             <h1 class="entry-title" v-if="isSingle">{{ post.title.rendered }}</h1>
             <h2 class="entry-title" v-else><router-link :to="{ path: base_path + post.slug }">{{ post.title.rendered }}</router-link></h2>
 
@@ -78,7 +78,21 @@
         mounted() {
             // If post hasn't been passed by prop
             if (!this.post.id) {
-                this.getPost();
+                var self = this;
+                this.getPost(function(data){
+                    self.post = data;
+
+                    // Load category information
+                    self.post.categories.forEach(function(category){
+                        self.getCategory(category);
+                    });
+
+                    self.getUser(self.post.author);
+
+                    window.eventHub.$emit('page-title', self.post.title.rendered);
+                    window.eventHub.$emit('track-ga');
+                });
+
                 this.isSingle = true;
             }
         },
@@ -93,39 +107,7 @@
         },
 
         methods: {
-            getPost() {
-                this.$http.get(wp.root + 'wp/v2/posts/' + this.$route.meta.postId).then(function(response) {
 
-                    this.post = response.data;
-
-                    // Load category information
-                    var self = this;
-                    this.post.categories.forEach(function(category){
-                        self.getCategory(category);
-                    });
-
-                    this.getUser(this.post.author);
-
-                    window.eventHub.$emit('page-title', this.post.title.rendered);
-                    window.eventHub.$emit('track-ga');
-                }, function(response) {
-                    console.log(response);
-                });
-            },
-            getCategory(categoryId) {
-                this.$http.get(wp.root + 'wp/v2/categories/' + categoryId).then(function(response) {
-                    this.categories.push(response.data)
-                }, function(response) {
-                    console.log(response);
-                });
-            },
-            getUser(userId) {
-                this.$http.get(wp.root + 'wp/v2/users/' + userId).then(function(response) {
-                    this.author = response.data
-                }, function(response) {
-                    console.log(response);
-                });
-            }
         },
 
         route: {

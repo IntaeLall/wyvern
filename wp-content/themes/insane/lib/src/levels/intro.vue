@@ -46,12 +46,14 @@
       <h2 class="level-intro-subtitle">{{ level.subtitle }}</h2>
 
       <transition name="fade">
-        <div class="embed-container" v-if="level.video && show_video">
-          <iframe :src="level.video" frameborder="0" webkit-allow-full-screen mozallowfullscreen allowfullscreen></iframe>
+        <div class="embed-wrapper" v-if="level.video && show_video">
+          <div class="embed-container">
+            <iframe :src="level.video" frameborder="0" webkit-allow-full-screen mozallowfullscreen allowfullscreen></iframe>
+          </div>
         </div>
       </transition>
 
-      <button type="button" @click="show_video = !show_video" class="level-intro-btn">
+      <button type="button" @click="playVideo()" class="level-intro-btn">
         {{ level.button_label }}
       </button>
     </div>
@@ -64,6 +66,13 @@
   export default {
 
     props: ['level'],
+
+    methods: {
+        playVideo() {
+          this.show_video = !this.show_video;
+          window.eventHub.$emit('toggle-video', this.show_video);
+        }
+    },
 
     data() {
       return {

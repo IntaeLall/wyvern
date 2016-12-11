@@ -23,15 +23,28 @@ add_theme_support( 'menus' );
 */
 
 function rest_theme_scripts() {
+    // Styles
     wp_enqueue_style( 'normalize', get_template_directory_uri() . '/assets/normalize.css', false, '3.0.3' );
     wp_enqueue_style( 'style', get_stylesheet_uri(), array( 'normalize' ) );
 
+    // Map
+    wp_enqueue_style( 'mapbox', 'https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css', false, '0.28.0' );
+    wp_enqueue_script( 'mapbox', 'https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js', array(), '0.28.0', true );
+
+    // Default 3rd party assets
+    wp_enqueue_script( 'pace', get_template_directory_uri() . '/assets/js/pace.min.js', array(), '1.0.0', true );
+    wp_enqueue_script( 'offline', get_template_directory_uri() . '/assets/js/offline.min.js', array(), '1.0.0', true );
+
+    // 3rd party scripts from default setup that will not be used
+    wp_deregister_script('mailpoet_vendor');
+    wp_deregister_script('mailpoet_public');
+    wp_deregister_style('mailpoet_public');
+
+    wp_enqueue_script( 'insane-vue', get_template_directory_uri() . '/lib/dist/build.js', array(), '1.0.0', true );
+
     $base_url  = esc_url_raw( home_url() );
     $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
-
-    wp_enqueue_script( 'pace', get_template_directory_uri() . '/assets/js/pace.min.js', array(), '1.0.0', true );
-    wp_enqueue_script( 'rest-theme-vue', get_template_directory_uri() . '/rest-theme/dist/build.js', array(), '1.0.0', true );
-    wp_localize_script( 'rest-theme-vue', 'wp', array(
+    wp_localize_script( 'insane-vue', 'wp', array(
         'root'          => esc_url_raw( rest_url() ),
         'base_url'      => $base_url,
         'base_path'     => $base_path ? $base_path . '/' : '/',
@@ -81,10 +94,11 @@ function rest_theme_routes() {
         while ( $query->have_posts() ) {
             $query->the_post();
             $routes[] = array(
-                'id'   => get_the_ID(),
-                'type' => get_post_type(),
-                'slug' => basename( get_permalink() ),
-                'link' => str_replace( site_url(), '', get_permalink() ),
+                'id'        => get_the_ID(),
+                'type'      => get_post_type(),
+                'slug'      => basename( get_permalink() ),
+                'link'      => str_replace( site_url(), '', get_permalink() ),
+                'template'  => get_page_template_slug()
             );
         }
     }
@@ -107,8 +121,9 @@ show_admin_bar(false);
 */
 
 register_nav_menus( array(
-    'primary' => 'Primary Menu',
-    'footer' => 'Footer Menu',
+    'primary'   => 'Primary Menu',
+    'footer'    => 'Footer Menu',
+    'mega'      => 'Mega Menu',
 ) );
 
 /*
@@ -144,3 +159,75 @@ function slug_get_acf( $object, $field_name, $request ) {
         return [];
     }
 }
+
+/*
+|--------------------------------------------------------------------------
+| Page templates
+|--------------------------------------------------------------------------
+|
+| Register custom page templates without actually
+| creating files.
+|
+*/
+
+function get_custom_page_templates() {
+    $templates = [
+        'map' => 'Map template',
+    ];
+    return apply_filters( 'custom_page_templates', $templates );
+}
+
+add_action( 'edit_form_after_editor', 'custom_page_templates_init' );
+add_action( 'load-post.php', 'custom_page_templates_init_post' );
+add_action( 'load-post-new.php', 'custom_page_templates_init_post' );
+
+function custom_page_templates_init() {
+    remove_action( current_filter(), __FUNCTION__ );
+    if ( is_admin() && get_current_screen()->post_type === 'page' ) {
+        $templates = get_custom_page_templates(); // the function above
+        if ( ! empty( $templates ) )  {
+            set_custom_page_templates( $templates );
+        }
+    }
+}
+
+function custom_page_templates_init_post() {
+    remove_action( current_filter(), __FUNCTION__ );
+    $method = filter_input( INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING );
+    if ( empty( $method ) || strtoupper( $method ) !== 'POST' ) return;
+    if ( get_current_screen()->post_type === 'page' ) {
+        custom_page_templates_init();
+    }
+}
+
+function set_custom_page_templates( $templates = array() ) {
+    if ( ! is_array( $templates ) || empty( $templates ) ) return;
+    $core = array_flip( (array) get_page_templates() ); // templates defined by file
+    $data = array_filter( array_merge( $core, $templates ) );
+    ksort( $data );
+    $stylesheet = get_stylesheet();
+    $hash = md5( get_theme_root( $stylesheet ) . '/' . $stylesheet );
+    $persistently = apply_filters( 'wp_cache_themes_persistently', false, 'WP_Theme' );
+    $exp = is_int( $persistently ) ? $persistently : 1800;
+    wp_cache_set( 'page_templates-' . $hash, $data, 'themes', $exp );
+}
+
+/*
+|--------------------------------------------------------------------------
+| Sidebars
+|--------------------------------------------------------------------------
+|
+| Register sidebars for widgets.
+|
+*/
+
+register_sidebar([
+    'name'          => __( 'Primary sidebar', 'rest' ),
+    'id'            => 'primary-sidebar',
+    'description'   => '',
+    'class'         => '',
+    'before_widget' => '<li id="%1$s" class="widget %2$s">',
+    'after_widget'  => '</li>',
+    'before_title'  => '<h2 class="widgettitle">',
+    'after_title'   => '</h2>'
+]);

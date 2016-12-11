@@ -1,61 +1,80 @@
 /*
-Theme Name: insane
-Theme URI: http://www.sanatorium.ninja
-Author: Sanatorium
-Author URI: http://www.sanatorium.ninja
-Description: Vue 2 based WP theme
-Version: 1.0.0
-License: MIT
+ Theme Name:   insane
+ Theme URI:    http://sanatorium.ninja
+ Description:  Vue 2 based WP theme
+ Author:       Sanatorium
+ Author URI:   http://sanatorium.ninja
+ Template:     insane
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light
+ Text Domain:  insane
 */
 
-$brand-primary: #191919;
+$brand-primary: #191919!default;
+
+$color-white: #FFF!default;
+$color-platinum: #EAEAEA!default;
+$color-red: #FF2929!default;
+$color-light-grey: #7F7F7F!default;
+$color-grey: #414141!default;
+$color-dark-grey: #181818!default;
+$color-black: #000!default;
+$color-orchid: #C34EFF!default;
+
+$background-color: $color-white;
+
+$font-family-sans-serif: "aktiv-grotesk", sans-serif!default;
+$font-family-headline: "kepler-std-semicondensed-cap", serif!default;
+
+$screen-xs-max: 767px!default;
+$screen-sm-min: 768px!default;
+$screen-sm-max: 969px!default;
+$screen-md-min: 970px!default;
+$screen-md-max: 1169px!default;
+$screen-lg-min: 1170px!default;
+
+$brand-transition: 0.6s all!default;
+
 
 body {
-  font: 16px/1.6em 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background: #e6eaec;
-  color: #34495e;
+  font: 16px/1.6em $font-family-sans-serif;
+  background: $background-color;
+  color: $color-light-grey;
+}
+
+h1 {
+  font-family: $font-family-headline;
 }
 
 a, a:visited {
-  color: #2a76d2;
+  color: $color-black;
   text-decoration: none;
 }
 
 a:hover, a:focus {
-  color: #2a76d2;
-  text-decoration: underline;
+  color: $color-red;
+  text-decoration: none;
 }
 
-.router-link-active {
+.header .router-link-active {
   color: $color-orchid;
 }
 
 #content { display: none; }
 
 .container {
-  max-width: 960px;
+  max-width: 1170px;
   margin: 0 auto;
-  padding: 0 20px;
 }
 
 .header,
 .footer {
-  background: #fff;
-  padding: 30px 0;
 }
 
 .post,
 .page {
-  background: #fff;
-  padding: 30px;
-  margin-bottom: 50px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-}
-
-.entry-title {
-  font-size: 30px;
-  line-height: 1.3em;
-  margin: 0 0 30px;
 }
 
 /* Helpers */
@@ -66,6 +85,18 @@ a:hover, a:focus {
 .text-right { text-align: right; }
 .block { display: block; }
 .hidden { display: none!important }
+
+/* Responsive visibility */
+@media(max-width:$screen-xs-max) {
+  .visible-xs {
+    display: block;
+  }
+}
+@media(min-width:$screen-sm-min) {
+  .visible-xs {
+    display: none;
+  }
+}
 
 /* Buttons */
 .btn {
@@ -93,15 +124,20 @@ a:hover, a:focus {
   }
 }
 
-/* Mega nav */
-.mega-nav {
+/* Mega nav + Mega search */
+.mega-nav, .mega-search {
   position: fixed;
   background-color: #fff;
   left: 0;
   right: 0;
   bottom: 0;
-  top: 100px;
+  top: 80px;
   z-index: 1999;
+  overflow: auto;
+
+  &.mega-search {
+    z-index: 2000;
+  }
 
   .nav {
     list-style-type: none;
@@ -117,6 +153,22 @@ a:hover, a:focus {
     }
   }
   .router-link-active { color: #333; }
+}
+
+/* Mega search */
+.search-result {
+  padding: 5px 20px;
+  .search-result-title {
+
+  }
+  .search-result-content {
+
+  }
+  .search-highlight {
+    background-color: rgba(200,150,150,0.4);
+    color: rgba(200,100,100,1);
+    font-weight: bold;
+  }
 }
 
 /* Burger */
@@ -137,7 +189,7 @@ a:hover, a:focus {
 }
 
 .pace .pace-progress {
-  background: #29d;
+  background: $color-red;
   position: fixed;
   z-index: 2000;
   top: 0;

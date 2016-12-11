@@ -3,8 +3,8 @@
 </style>
 
 <template>
-  <div v-if="object.acf">
-    <div v-if="object.acf.levels" v-for="level in object.acf.levels">
+  <div v-if="object.acf" class="levels-wrapper">
+    <div v-if="object.acf.levels" v-for="level in object.acf.levels" class="levels-inner-wrapper">
       <component :is="level.acf_fc_layout" :level="level"></component>
     </div>
   </div>
