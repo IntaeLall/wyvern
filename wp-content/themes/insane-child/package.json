@@ -4,16 +4,18 @@
     "vue": "vue/dist/vue.common"
   },
   "scripts": {
-    "dev": "watchify -vd -p browserify-hmr -e lib/src/main.js -o lib/dist/build.js | npm run watch-css",
+    "dev": "watchify -vd -p browserify-hmr -r ./../insane/lib/src/main.js -e lib/src/main.js -o lib/dist/build.js | npm run watch-css",
     "build": "cross-env NODE_ENV=production browserify lib/src/main.js | uglifyjs -c warnings=false -m > lib/dist/build.js",
     "assets": "cp node_modules/normalize.css/normalize.css assets",
     "watch-css": "node-sass -w style.scss style.css"
   },
   "dependencies": {
     "axios": "^0.15.3",
+    "juliabox": "^1.0.0",
     "moment": "^2.17.1",
     "normalize.css": "^3.0.3",
     "vue": "^2.0.0",
+    "vue-moment": "^2.0.2",
     "vue-router": "^2.0.0"
   },
   "devDependencies": {
@@ -22,10 +24,10 @@
     "babel-preset-es2015": "^6.0.0",
     "babel-preset-stage-2": "^6.0.0",
     "babel-runtime": "^5.8.0",
-    "cross-env": "^1.0.6",
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "browserify-hmr": "^0.3.1",
+    "cross-env": "^1.0.6",
     "http-server": "^0.8.5",
     "uglify-js": "^2.5.0",
     "vue-hot-reload-api": "^1.2.2",
