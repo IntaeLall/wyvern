@@ -1,6 +1,4 @@
-![Alt text](/insane_wyvern.png?raw=true)
-
-# InSane Wyvern
+![Insane Wyvern](/insane_wyvern.png?raw=true)
 
 ## Installation
 1. Clone this repository
