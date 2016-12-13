@@ -1,25 +1,17 @@
 <style>
     .header {
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+
     }
     .header .container {
         display: flex;
         align-items: center;
+        justify-content: center;
     }
-    .header .nav-toggle { width: 40px; }
-    .header .site-title { width: 50%; }
-    .header .nav {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        width: 50%;
+    .header .container > * {
+        flex: 1;
+    }
+    .header .container .nav {
         text-align: right;
-    }
-    .header .nav li {
-        display: inline;
-    }
-    .site-title, .site-title a {
-        height: 40px;
     }
 </style>
 
@@ -41,7 +33,7 @@
                     </router-link>
                 </div>
                 <div class="search">
-                    <input type="search" v-model="search" placeholder="Search">
+                    <input type="search" v-model="search" :placeholder="lang.search_placeholder">
                 </div>
                 <ul class="nav">
                     <li v-for="item in menu">

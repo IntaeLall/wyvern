@@ -7,10 +7,6 @@
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
     <?php wp_head(); ?>
 
-    <!-- Mapbox -->
-    <script src='https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css' rel='stylesheet' />
-
     <!-- Typekit -->
     <script src="https://use.typekit.net/zuw7ihx.js"></script>
     <script>try{Typekit.load({ async: true });}catch(e){}</script>

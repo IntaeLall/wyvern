@@ -26,11 +26,6 @@ Vue.component('theme-footer', Footer)
 import Levels from './levels.vue'
 Vue.component('levels', Levels)
 
-// Specific pages
-// import Page6 from './page6.vue'
-// Vue.component('Page6', Page6)
-// window.wp.templates.push('Page6')
-
 // Levels - ACF flexible content layouts
 import Intro from './levels/intro.vue'
 Vue.component('intro', Intro)
@@ -152,13 +147,26 @@ Vue.mixin({
             }).catch(function(error) {
                 console.log(error);
             });
+        },
+
+        getSidebars(callback) {
+            axios.get(wp.root + 'wp-json/wp-rest-api-sidebars/v1/sidebars').then(function(response) {
+                if ( typeof callback == 'function' )
+                    callback(response.data);
+            }).catch(function(error) {
+                console.log(error);
+            });
+        },
+
+        getSidebar(sidebarId, callback) {
+            axios.get(wp.root + 'wp-json/wp-rest-api-sidebars/v1/sidebars/' + sidebarId).then(function(response) {
+                if ( typeof callback == 'function' )
+                    callback(response.data);
+            }).catch(function(error) {
+                console.log(error);
+            });
         }
     }
-});
-
-//
-Offline.on('confirmed-down', function () {
-    alert('offline');
 });
 
 // Base routes

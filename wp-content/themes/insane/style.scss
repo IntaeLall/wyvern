@@ -37,6 +37,14 @@ $screen-lg-min: 1170px!default;
 
 $brand-transition: 0.6s all!default;
 
+$grid-gutter-width: 20px;
+
+html, input[type="search"] {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 
 body {
   font: 16px/1.6em $font-family-sans-serif;
@@ -56,6 +64,13 @@ a, a:visited {
 a:hover, a:focus {
   color: $color-red;
   text-decoration: none;
+}
+
+input[type="search"] {
+  background-image: url(./assets/images/icons/search.svg);
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: 30px 28px;
 }
 
 .header .router-link-active {

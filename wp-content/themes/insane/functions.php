@@ -27,20 +27,15 @@ function rest_theme_scripts() {
     wp_enqueue_style( 'normalize', get_template_directory_uri() . '/assets/normalize.css', false, '3.0.3' );
     wp_enqueue_style( 'style', get_stylesheet_uri(), array( 'normalize' ) );
 
-    // Map
-    wp_enqueue_style( 'mapbox', 'https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css', false, '0.28.0' );
-    wp_enqueue_script( 'mapbox', 'https://api.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js', array(), '0.28.0', true );
-
-    // Default 3rd party assets
+    // Pace
     wp_enqueue_script( 'pace', get_template_directory_uri() . '/assets/js/pace.min.js', array(), '1.0.0', true );
-    wp_enqueue_script( 'offline', get_template_directory_uri() . '/assets/js/offline.min.js', array(), '1.0.0', true );
 
     // 3rd party scripts from default setup that will not be used
     wp_deregister_script('mailpoet_vendor');
     wp_deregister_script('mailpoet_public');
     wp_deregister_style('mailpoet_public');
 
-    wp_enqueue_script( 'insane-vue', get_template_directory_uri() . '/lib/dist/build.js', array(), '1.0.0', true );
+    wp_enqueue_script( 'insane-vue', get_stylesheet_directory_uri() . '/lib/dist/build.js', array(), '1.0.0', true );
 
     $base_url  = esc_url_raw( home_url() );
     $base_path = rtrim( parse_url( $base_url, PHP_URL_PATH ), '/' );
@@ -51,8 +46,13 @@ function rest_theme_scripts() {
         'nonce'         => wp_create_nonce( 'wp_rest' ),
         'site_name'     => get_bloginfo( 'name' ),
         'routes'        => rest_theme_routes(),
-        'assets_path'   => get_template_directory_uri() . '/assets/',
+        'assets_path'   => get_stylesheet_directory_uri() . '/assets',
         'lang'          => get_language_strings(),
+
+        // Configurations
+        'keys'          => [
+            'mapbox'    => env('MAPBOX_TOKEN'),
+        ],
 
         // Inline configurations
         'show_on_front' => get_option('show_on_front'), // (posts|page) Settings -> Reading -> Front page displays
@@ -68,7 +68,8 @@ add_action( 'wp_enqueue_scripts', 'rest_theme_scripts' );
 
 function get_language_strings() {
     return [
-        'show_menu' => __('Show menu', 'rest')
+        'show_menu' => __('Show menu', 'rest'),
+        'search_placeholder' => __('Search', 'rest'),
     ];
 }
 
