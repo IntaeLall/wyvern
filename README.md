@@ -16,6 +16,7 @@
     ```
     
 4. Enjoy InSane Wyvern!
+
 ## Contents
 
 Default plugins:
