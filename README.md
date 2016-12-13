@@ -4,7 +4,7 @@
 1. Clone this repository
 
     ```
-    git clone https://github.com/sanatorium/wp-vue-boilerplate.git
+    git clone https://github.com/sanatorium/insane-wyvern.git
     ```
     
 2. Create /.env file (check /.env-sample)
