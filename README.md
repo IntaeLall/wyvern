@@ -1,3 +1,5 @@
+![Alt text](/insane_wyvern.png?raw=true)
+
 # InSane Wyvern
 
 ## Installation
