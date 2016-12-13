@@ -2,15 +2,15 @@
 
 ## Installation
 1. Clone this repository
-```
-git clone https://github.com/sanatorium/wp-vue-boilerplate.git
-```
+    ```
+    git clone https://github.com/sanatorium/wp-vue-boilerplate.git
+    ```
 2. Create /.env file (check /.env-sample)
 
-3. Install packages via composer
-```
-composer install
-```
+3. Install packages with composer
+    ```
+    composer install
+    ```
 
 ## Contents
 
