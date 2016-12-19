@@ -1,8 +1,5 @@
 {
   "private": true,
-  "browser": {
-    "vue": "vue/dist/vue.common"
-  },
   "scripts": {
     "dev": "watchify -vd -p browserify-hmr -e lib/src/main.js -o lib/dist/build.js | npm run watch-css",
     "build": "cross-env NODE_ENV=production browserify lib/src/main.js | uglifyjs -c warnings=false -m > lib/dist/build.js",
@@ -33,6 +30,9 @@
     "vueify": "^8.0.0",
     "vueify-insert-css": "^1.0.0",
     "watchify": "^3.4.0"
+  },
+  "browser": {
+    "vue": "vue/dist/vue.common"
   },
   "browserify": {
     "transform": [

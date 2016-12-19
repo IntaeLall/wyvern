@@ -47,7 +47,7 @@ Based on [Gilbert Pellegrom](http://gilbert.pellegrom.me) WP REST Theme
   - Tag cloud
   - Text
 * ~~Child theme~~
+  * ~~vue component overrides~~
 * ~~Separate some vue components from theme~~
 * Paginated list of posts
-* dynamic routes
-  * note: to prevent 404, look for REQUEST_URI in php to have atleast that route and then add others that appear as links on the page
+* ~~dynamic routes~~

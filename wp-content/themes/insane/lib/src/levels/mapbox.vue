@@ -1,6 +1,6 @@
 <style>
     .level.level-mapbox #map {
-        height: 520px;
+        min-height: 520px;
         width: 100%;
     }
     .marker {
@@ -29,73 +29,49 @@
 
         methods: {
             initData() {
-                var map = this.getMap();
+                var map = this.getMap(),
+                    self = this;
 
-                var geojson = {
-                    "type": "FeatureCollection",
-                    "features": [
-                        {
-                            "type": "Feature",
-                            "properties": {
-                                "message": "Foo",
-                                "iconSize": [60, 60]
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [
-                                    -66.324462890625,
-                                    -16.024695711685304
-                                ]
-                            }
-                        },
-                        {
-                            "type": "Feature",
-                            "properties": {
-                                "message": "Bar",
-                                "iconSize": [50, 50]
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [
-                                    -61.2158203125,
-                                    -15.97189158092897
-                                ]
-                            }
-                        },
-                        {
-                            "type": "Feature",
-                            "properties": {
-                                "message": "Baz",
-                                "iconSize": [40, 40]
-                            },
-                            "geometry": {
-                                "type": "Point",
-                                "coordinates": [
-                                    -63.29223632812499,
-                                    -18.28151823530889
-                                ]
+                this.getPlacePosts(function(data){
+
+                    data.forEach(function(post){
+                        if ( typeof post.acf == 'undefined' ) return;
+                        if ( typeof post.acf.location == 'undefined' ) return;
+
+                        var locobj = JSON.parse( post.acf.location );
+
+                        if ( typeof locobj[0] == 'undefined' ) return;
+
+                        if ( typeof locobj[0].lat == 'undefined' ) return;
+                        if ( typeof locobj[0].lng == 'undefined' ) return;
+
+                        // create a DOM element for the marker
+                        var el = document.createElement('div');
+                        el.className = 'marker';
+                        el.style.width = 40 + 'px';
+                        el.style.height = 40 + 'px';
+
+                        if ( typeof post.acf.obrazky[0] != 'undefined' ) {
+                            if ( typeof post.acf.obrazky[0].obrazek != 'undefined' ) {
+                                if (typeof post.acf.obrazky[0].obrazek.sizes != 'undefined') {
+                                    el.style.backgroundImage = 'url('+post.acf.obrazky[0].obrazek.sizes.thumbnail+')';
+                                }
                             }
                         }
-                    ]
-                };
 
-                // add markers to map
-                geojson.features.forEach(function(marker) {
-                    // create a DOM element for the marker
-                    var el = document.createElement('div');
-                    el.className = 'marker';
-                    el.style.backgroundImage = 'url(https://placekitten.com/g/' + marker.properties.iconSize.join('/') + '/)';
-                    el.style.width = marker.properties.iconSize[0] + 'px';
-                    el.style.height = marker.properties.iconSize[1] + 'px';
+                        el.addEventListener('click', function(marker) {
+                            self.$router.push({ path: self.url2Slug(post.link) })
+                            map.setCenter([post.acf.location[0].lat, post.acf.location[0].lng]);
+                        });
 
-                    el.addEventListener('click', function() {
-                        window.alert(marker.properties.message);
+                        // add marker to map
+                        new mapboxgl.Marker(el, {offset: [-40 / 2, -40 / 2]})
+                            .setLngLat({
+                                lat: locobj[0].lat,
+                                lng: locobj[0].lng
+                            })
+                            .addTo(map);
                     });
-
-                    // add marker to map
-                    new mapboxgl.Marker(el, {offset: [-marker.properties.iconSize[0] / 2, -marker.properties.iconSize[1] / 2]})
-                        .setLngLat(marker.geometry.coordinates)
-                        .addTo(map);
                 });
             }
         },
@@ -105,8 +81,9 @@
                 container: 'map',
                 token: wp.keys.mapbox,
                 style: 'mapbox://styles/rozklad/ciw9godi900482qnu4qauaozp',
-                center: [-65.017, -16.457],
-                zoom: 5
+                center: [42.4797, 19.94336],
+                zoom: 3,
+                directions: true
             }
         }
     }

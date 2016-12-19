@@ -71,6 +71,9 @@ input[type="search"] {
   background-repeat: no-repeat;
   background-position: center right;
   background-size: 30px 28px;
+  &.active {
+    background-image: url(./assets/images/icons/close.svg);
+  }
 }
 
 .header .router-link-active {

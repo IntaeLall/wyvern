@@ -3,6 +3,7 @@
 </style>
 
 <template>
+  <div class="theme-footer"></div>
 </template>
 
 <script>

@@ -1,3 +1,11 @@
+<!--
+    @methods
+        hideSearch()
+        showSearch()
+        toggleSearch()
+        hideMenu()
+        highlightSearch()
+-->
 <style>
     .header {
 
@@ -13,6 +21,10 @@
     .header .container .nav {
         text-align: right;
     }
+
+    input[type="search"] {
+        cursor: pointer;
+    }
 </style>
 
 <template>
@@ -25,15 +37,19 @@
                     </button>
                 </div>
                 <div class="site-title">
-                    <router-link :to="{ path: base_path }" v-show="!logo">{{ site_name }}</router-link>
-                    <router-link :to="{ path: base_path }" v-show="logo" class="block">
+                    <router-link :to="{ path: base_path }" v-show="!display.show_logo">{{ site_name }}</router-link>
+                    <router-link :to="{ path: base_path }" v-show="display.show_logo" class="block">
                         <img v-bind:src="assets_path + '/images/logo.svg'"
                          v-bind:alt="site_name"
                          height="40">
                     </router-link>
                 </div>
                 <div class="search">
-                    <input type="search" v-model="search" :placeholder="lang.search_placeholder">
+                    <input type="search"
+                            v-model="search"
+                            :placeholder="lang.search_placeholder"
+                            :class="{ active: show_search }"
+                            @click="toggleSearch()">
                 </div>
                 <ul class="nav">
                     <li v-for="item in menu">
@@ -44,7 +60,7 @@
         </header>
 
         <transition name="slide-fade">
-            <div class="mobile-nav" v-show="show_menu && !megamenu">
+            <div class="mobile-nav" v-show="show_menu && !display.show_megamenu">
                 <div class="container">
                     <ul class="nav">
                         <li v-for="item in menu">
@@ -56,13 +72,29 @@
         </transition>
 
         <transition name="slide-fade">
-            <div class="mega-nav" v-show="show_menu && megamenu">
-                <div class="container">
-                    <ul class="nav">
-                        <li v-for="item in mega">
-                            <router-link :to="{ path: url2Slug(item.url) }">{{ item.title }}</router-link>
-                        </li>
-                    </ul>
+            <div class="mega-nav" v-show="show_menu && display.show_megamenu">
+                <div class="container mega-container">
+                    <div class="mega-col">
+                        <ul class="nav">
+                            <li v-for="item in mega">
+                                <router-link :to="{ path: url2Slug(item.url) }">{{ item.title }}</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mega-col">
+                        <div v-for="partner in partners">
+                            <img v-if="partner.acf.logo.url" :src="partner.acf.logo.url" width="200">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mega-footer">
+                    <div>
+                        <img :src="assets_path + '/images/icons/octocat.png'" alt="Open source">
+                    </div>
+                    <div>
+                        <p>Projekt Encyklopedie migrace je plně otevřeným projektem.<br>Zdrojové kódy naleznete na <a href="https://github.com/sanatorium/insane-wyvern" target="_blank">Githubu</a></p>
+                    </div>
                 </div>
             </div>
         </transition>
@@ -96,6 +128,10 @@
             this.getMenuLocation('mega', function(data){
                 self.mega = data;
             });
+
+            this.getCustom('partner', function(data){
+                self.partners = data;
+            });
         },
 
         data() {
@@ -103,8 +139,7 @@
                 assets_path: wp.assets_path,
                 base_path: wp.base_path,
                 site_name: wp.site_name,
-                logo: wp.logo,
-                megamenu: wp.megamenu,
+                display: wp.display,
                 pages: [],
                 menu: [],
                 mega: [],
@@ -113,12 +148,27 @@
                 search: '',
                 search_results: [],
                 show_search: false,
+                partners: []
             }
         },
 
         methods: {
             hideMenu() {
                 this.show_menu = false;
+            },
+            hideSearch() {
+                this.search = '';
+                this.show_search = false;
+            },
+            showSearch() {
+                this.show_search = true;
+            },
+            toggleSearch() {
+                if ( this.show_search ) {
+                    this.hideSearch()
+                } else {
+                    this.showSearch()
+                }
             },
             highlightSearch(input) {
                 return input.replace(this.search, '<span class="search-highlight">' + this.search + '</span>')
@@ -146,12 +196,14 @@
         // Create listeners
         created() {
             window.eventHub.$on('changed-route', this.hideMenu)
+            window.eventHub.$on('changed-route', this.hideSearch)
         },
 
         // It's good to clean up event listeners before
         // a component is destroyed.
         beforeDestroy() {
             window.eventHub.$off('changed-route', this.hideMenu)
+            window.eventHub.$off('changed-route', this.hideSearch)
         },
     }
 </script>

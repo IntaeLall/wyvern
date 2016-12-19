@@ -7,9 +7,8 @@
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
     <?php wp_head(); ?>
 
-    <!-- Typekit -->
-    <script src="https://use.typekit.net/zuw7ihx.js"></script>
-    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <?php $extras_options = get_option ( 'wyvern_theme_extras_options' ) ?>
+    <?php echo $extras_options['custom_header_html'] ?>
 </head>
 <body>
 
