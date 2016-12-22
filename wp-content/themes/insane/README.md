@@ -1,11 +1,11 @@
 # insane
 
 ```
-npm run dev
+webpack --progress
 ```
 
 ```
-npm run build
+webpack --watch
 ```
 
 ### Credits
