@@ -90,9 +90,6 @@
 
                 <div class="mega-footer">
                     <div>
-                        <img :src="assets_path + '/images/icons/octocat.png'" alt="Open source">
-                    </div>
-                    <div>
                         <p>Projekt Encyklopedie migrace je plně otevřeným projektem.<br>Zdrojové kódy naleznete na <a href="https://github.com/sanatorium/insane-wyvern" target="_blank">Githubu</a></p>
                     </div>
                 </div>
@@ -127,10 +124,6 @@
 
             this.getMenuLocation('mega', function(data){
                 self.mega = data;
-            });
-
-            this.getCustom('partner', function(data){
-                self.partners = data;
             });
         },
 
