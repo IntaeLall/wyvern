@@ -82,9 +82,7 @@
                         </ul>
                     </div>
                     <div class="mega-col">
-                        <div v-for="partner in partners">
-                            <img v-if="partner.acf.logo.url" :src="partner.acf.logo.url" width="200">
-                        </div>
+
                     </div>
                 </div>
 

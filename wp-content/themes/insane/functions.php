@@ -35,6 +35,7 @@ function rest_theme_scripts() {
     wp_deregister_script('mailpoet_vendor');
     wp_deregister_script('mailpoet_public');
     wp_deregister_style('mailpoet_public');
+    wp_deregister_style('style');
 
     wp_enqueue_script( 'wyvern-vue', get_stylesheet_directory_uri() . '/lib/dist/build.js', array(), '1.0.0', true );
 

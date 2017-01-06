@@ -1,8 +1,11 @@
+/**
+ * Created by Insane on 05/01/2017.
+ */
 const webpack    = require('webpack');
 const path       = require('path');
-const projectRoot= path.resolve(__dirname, './');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 
-const config = {
+module.exports = {
     entry: __dirname + '/lib/src/main.js',
 
     output: {
@@ -32,6 +35,14 @@ const config = {
                 loader: 'babel-loader?presets[]=es2015',
                 exclude: /node_modules/
             },
+            {
+                test: /\.scss$/,
+                loaders: [
+                    'style-loader',
+                    'css-loader?importLoaders=1',
+                    'postcss-loader?parser=postcss-scss'
+                ]
+            }
         ],
     },
 
@@ -41,9 +52,8 @@ const config = {
                 screw_ie8: true,
                 warnings: false
             }
-        })
+        }),
+        new LiveReloadPlugin({appendScriptTag: true}),
     ]
 
 };
-
-module.exports = config;

@@ -50,7 +50,7 @@ $burger-bar-color: $brand-primary;
 .c-hamburger span {
   display: block;
   position: absolute;
-  top: ($button-height / 2) - ($bar-thickness / 2);
+  top: calc(($button-height / 2) - ($bar-thickness / 2));
   left: $button-pad;
   right: $button-pad;
   height: $bar-thickness;
@@ -69,11 +69,11 @@ $burger-bar-color: $brand-primary;
 }
 
 .c-hamburger span::before {
-  top: -$bar-thickness - $button-bar-space;
+  top: calc((-$bar-thickness) - $button-bar-space);
 }
 
 .c-hamburger span::after {
-  bottom: -$bar-thickness - $button-bar-space;
+  bottom: calc(-$bar-thickness - $button-bar-space);
 }
 
 /**
@@ -203,12 +203,12 @@ $burger-bar-color: $brand-primary;
 
 .c-hamburger--htla.is-active span::before {
   top: 0;
-  transform: translateX($button-width/2 - $button-pad + $bar-thickness) translateY($bar-thickness/2) rotate(45deg);
+  transform: translateX(calc($button-width/2 - $button-pad + $bar-thickness)) translateY(calc($bar-thickness/2)) rotate(45deg);
 }
 
 .c-hamburger--htla.is-active span::after {
   bottom: 0;
-  transform: translateX($button-width/2 - $button-pad + $bar-thickness) translateY(-$bar-thickness/2) rotate(-45deg);
+  transform: translateX(calc($button-width/2 - $button-pad + $bar-thickness)) translateY(calc(-$bar-thickness/2)) rotate(-45deg);
 }
 
 /**
@@ -259,10 +259,10 @@ $burger-bar-color: $brand-primary;
 
 .c-hamburger--htra.is-active span::before {
   top: 0;
-  transform: translateX(-$bar-thickness) translateY($bar-thickness/2) rotate(-45deg);
+  transform: translateX(calc(-$bar-thickness)) translateY(calc($bar-thickness/2)) rotate(-45deg);
 }
 
 .c-hamburger--htra.is-active span::after {
   bottom: 0;
-  transform: translateX(-$bar-thickness) translateY(-$bar-thickness/2) rotate(45deg);
+  transform: translateX(calc(-$bar-thickness)) translateY(calc(-$bar-thickness/2)) rotate(45deg);
 }
