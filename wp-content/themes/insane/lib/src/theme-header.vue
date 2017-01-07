@@ -1,11 +1,3 @@
-<!--
-    @methods
-        hideSearch()
-        showSearch()
-        toggleSearch()
-        hideMenu()
-        highlightSearch()
--->
 <style>
     .header {
 
@@ -183,7 +175,7 @@
                     var self = this;
                     this.show_search = true;
                     this.getSearch(val, function(data){
-                        self.search_results = data;
+                        self.search_results = data.slice().reverse();
                     });
                 } else {
                     this.search_results = [];

@@ -69,6 +69,9 @@ function rest_theme_scripts() {
         // Tracking options
         'tracking'      => get_option ( 'wyvern_theme_tracking_options' ),
 
+        // Extras options
+        'extras'        => get_option ( 'wyvern_theme_extras_options' ),
+
     ) );
 }
 
@@ -179,10 +182,18 @@ function slug_get_acf( $object, $field_name, $request ) {
 |
 */
 
-function get_custom_page_templates() {
-    $templates = [
+function get_virtual_templates() {
+    return [
         'map' => 'Map template',
     ];
+}
+
+/**
+ * Wordpress < 4.7
+ */
+
+function get_custom_page_templates() {
+    $templates = get_virtual_templates();
     return apply_filters( 'custom_page_templates', $templates );
 }
 
@@ -220,6 +231,24 @@ function set_custom_page_templates( $templates = array() ) {
     $exp = is_int( $persistently ) ? $persistently : 1800;
     wp_cache_set( 'page_templates-' . $hash, $data, 'themes', $exp );
 }
+
+/**
+ * Wordpress >= 4.7
+ */
+function makewp_exclude_page_templates( $post_templates ) {
+    $templates = get_virtual_templates();
+
+    if ( version_compare( $GLOBALS['wp_version'], '4.7', '>=' ) ) {
+        foreach( $templates as $key => $value )
+        {
+            $post_templates[$key] = $value;
+        }
+    }
+
+    return $post_templates;
+}
+
+add_filter( 'theme_page_templates', 'makewp_exclude_page_templates' );
 
 /*
 |--------------------------------------------------------------------------
@@ -864,6 +893,22 @@ function wyvern_theme_intialize_extras_options() {
         'extras_settings_section'
     );
 
+    add_settings_field(
+        'footer_text',
+        'Footer text',
+        'wyvern_footer_text_callback',
+        'wyvern_theme_extras_options',
+        'extras_settings_section'
+    );
+
+    add_settings_field(
+        'mapbox_style',
+        'Mapbox style',
+        'wyvern_mapbox_style_callback',
+        'wyvern_theme_extras_options',
+        'extras_settings_section'
+    );
+
     register_setting(
         'wyvern_theme_extras_options',
         'wyvern_theme_extras_options',
@@ -889,7 +934,35 @@ function wyvern_custom_header_html_callback() {
     // Render the output
     echo '<textarea id="custom_header_html" name="wyvern_theme_extras_options[custom_header_html]" rows="8" cols="40">' . $custom_header_html . '</textarea>';
 
-} // end wyvern_googleplus_callback
+} // end custom_header_html_callback
+
+function wyvern_footer_text_callback() {
+
+    $options = get_option( 'wyvern_theme_extras_options' );
+
+    $footer_text = '';
+    if( isset( $options['footer_text'] ) ) {
+        $footer_text = $options['footer_text'];
+    } // end if
+
+    // Render the output
+    echo '<textarea id="footer_text" name="wyvern_theme_extras_options[footer_text]" rows="8" cols="40">' . $footer_text . '</textarea>';
+
+} // end custom_header_html_callback
+
+function wyvern_mapbox_style_callback() {
+
+    $options = get_option( 'wyvern_theme_extras_options' );
+
+    $mapbox_style = '';
+    if( isset( $options['mapbox_style'] ) ) {
+        $mapbox_style = $options['mapbox_style'];
+    } // end if
+
+    // Render the output
+    echo '<textarea id="mapbox_style" name="wyvern_theme_extras_options[mapbox_style]" rows="8" cols="40">' . $mapbox_style . '</textarea>';
+
+} // end custom_header_html_callback
 
 function wyvern_theme_sanitize_extras_options( $input ) {
 

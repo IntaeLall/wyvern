@@ -128,6 +128,17 @@ Vue.mixin({
       });
     },
 
+    getTag(tagId, callback) {
+      var self = this;
+      axios.get(wp.root + 'wp/v2/tags/' + tagId)
+          .then(function(response) {
+            if ( typeof callback == 'function' )
+              callback(response.data)
+          }).catch(function(error) {
+        console.log(error);
+      });
+    },
+
     getAuthor(authorID, callback) {
       /* todo: CPT - turn to getPost with callback */
       var self = this;

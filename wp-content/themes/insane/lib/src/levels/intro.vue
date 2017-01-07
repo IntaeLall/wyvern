@@ -68,10 +68,10 @@
     props: ['level'],
 
     methods: {
-        playVideo() {
-          this.show_video = !this.show_video;
-          window.eventHub.$emit('toggle-video', this.show_video);
-        }
+      playVideo() {
+        this.show_video = !this.show_video;
+        window.eventHub.$emit('toggle-video', this.show_video);
+      }
     },
 
     data() {

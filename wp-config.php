@@ -27,11 +27,20 @@ require_once($root_dir . '/vendor/autoload.php');
  */
 Env::init();
 
+$env_file_path = '.env';
+$tenant_file_path = __DIR__ . '/wp-tenant.php';
+
+if ( file_exists( $tenant_file_path ) )
+{
+    $env_file_path = include( $tenant_file_path );
+}
+
 /**
  * Use Dotenv to set required environment variables and load .env file in root
  */
 $dotenv = new Dotenv\Dotenv($root_dir);
-if (file_exists($root_dir . '/.env')) {
+if (file_exists($root_dir . '/' . $env_file_path)) {
+    $dotenv = new Dotenv\Dotenv(__DIR__, $env_file_path);
     $dotenv->load();
     $dotenv->required(['DB_NAME', 'DB_USER', 'DB_PASSWORD']);
 }

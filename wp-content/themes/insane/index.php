@@ -7,6 +7,10 @@
     <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
     <?php wp_head(); ?>
 
+    <script type="text/javascript">
+        document.write('<script src="//localhost:35729/livereload.js?snipver=1" type="text/javascript"><\/script>')
+    </script>
+
     <?php $extras_options = get_option ( 'wyvern_theme_extras_options' ) ?>
     <?php echo $extras_options['custom_header_html'] ?>
 </head>
@@ -44,13 +48,16 @@
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-86752136-1', 'auto');
+        <?php $tracking_options = get_option ( 'wyvern_theme_tracking_options' ) ?>
+        ga('create', '<?php echo $tracking_options['google_analytics_id'] ?>', 'auto');
         // Do not send pageview on page load, it will be sent by the router
         // ga('send', 'pageview');
 
     </script>
 
     <?php wp_footer(); ?>
+
+    <?php include( __DIR__ . '/../tenancy.php'); ?>
 
 </body>
 </html>

@@ -6,6 +6,7 @@ wp-content/uploads/*
 composer.lock
 vendor
 .env
+yarn.lock
 
 !wp-content/themes/insane
 !wp-content/themes/insane-child

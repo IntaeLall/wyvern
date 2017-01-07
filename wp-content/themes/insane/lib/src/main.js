@@ -16,10 +16,7 @@ const App = new Vue({
 
     template: '<div class="template-wrapper" :class="{ fullscreen: fullscreen, fullvideo: fullvideo }">' +
     '<theme-header></theme-header>' +
-    '<div class="cols">' +
-    '<mapbox></mapbox>' +
     '<router-view></router-view>' +
-    '</div>' +
     '<theme-footer></theme-footer>' +
     '<button type="button" class="btn btn-nav btn-fullscreen" @click="fullscreen = !fullscreen"></button>' +
     '</div>',
