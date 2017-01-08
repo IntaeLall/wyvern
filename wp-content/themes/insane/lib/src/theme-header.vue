@@ -74,16 +74,11 @@
                         </ul>
                     </div>
                     <div class="mega-col">
-                        <div v-for="partner in partners">
-                            <img v-if="partner.acf.logo.url" :src="partner.acf.logo.url" width="200">
-                        </div>
+
                     </div>
                 </div>
 
                 <div class="mega-footer">
-                    <div>
-                        <img :src="assets_path + '/images/icons/octocat.png'" alt="Open source">
-                    </div>
                     <div>
                         <p>Projekt Encyklopedie migrace je plně otevřeným projektem.<br>Zdrojové kódy naleznete na <a href="https://github.com/sanatorium/insane-wyvern" target="_blank">Githubu</a></p>
                     </div>
@@ -119,10 +114,6 @@
 
             this.getMenuLocation('mega', function(data){
                 self.mega = data;
-            });
-
-            this.getCustom('partner', function(data){
-                self.partners = data;
             });
         },
 

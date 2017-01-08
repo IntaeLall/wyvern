@@ -1,43 +1,59 @@
-var LiveReloadPlugin = require('webpack-livereload-plugin');
-var webpackUglifyJsPlugin = require('webpack-uglify-js-plugin');
+/**
+ * Created by Insane on 05/01/2017.
+ */
+const webpack    = require('webpack');
+const path       = require('path');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports = {
-    entry: './lib/src/main.js',
+    entry: __dirname + '/lib/src/main.js',
+
     output: {
-        path: './lib/dist',
+        path: __dirname + '/lib/dist',
         filename: 'build.js'
     },
+
+    resolve: {
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.common.js',
+        },
+        modules: [
+            path.resolve('./lib/src'),
+            'node_modules'
+        ],
+    },
+
     module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: [{
-                    loader: 'babel-loader',
-                }],
-            },
+        loaders: [
             {
                 test: /\.vue$/,
-                use: [{
-                    loader: 'vue-loader',
-                }],
-            }
-        ]
-    },
-    plugins: [
-        new LiveReloadPlugin({appendScriptTag: true}),
-
-        new webpackUglifyJsPlugin({
-            cacheFolder: './lib/dist',
-            debug: true,
-            minimize: true,
-            sourceMap: false,
-            output: {
-                comments: false
+                loader: 'vue-loader'
             },
-            compressor: {
+            {
+                test: /\.js$/,
+                loader: 'babel-loader?presets[]=es2015',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.scss$/,
+                loaders: [
+                    'style-loader',
+                    'css-loader?importLoaders=1',
+                    'postcss-loader?parser=postcss-scss'
+                ]
+            }
+        ],
+    },
+
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                screw_ie8: true,
                 warnings: false
             }
         }),
-    ],
-}
+        new LiveReloadPlugin({appendScriptTag: true}),
+    ]
+
+};

@@ -2,6 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import axios from 'axios'
 
+require('es6-promise/auto');
+
+// Import styles
+import './../../style.scss'
+
 const moment = require('moment')
 require('moment/locale/cs')
 

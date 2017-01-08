@@ -12,30 +12,30 @@
  Text Domain:  insane
 */
 
-$brand-primary: #191919!default;
+$brand-primary: #191919;
 
-$color-white: #FFF!default;
-$color-platinum: #EAEAEA!default;
-$color-red: #FF2929!default;
-$color-light-grey: #7F7F7F!default;
-$color-grey: #414141!default;
-$color-dark-grey: #181818!default;
-$color-black: #000!default;
-$color-orchid: #C34EFF!default;
+$color-white: #FFF;
+$color-platinum: #EAEAEA;
+$color-red: #FF2929;
+$color-light-grey: #7F7F7F;
+$color-grey: #414141;
+$color-dark-grey: #181818;
+$color-black: #000;
+$color-orchid: #C34EFF;
 
 $background-color: $color-white;
 
-$font-family-sans-serif: "aktiv-grotesk", sans-serif!default;
-$font-family-headline: "kepler-std-semicondensed-cap", serif!default;
+$font-family-sans-serif: "aktiv-grotesk", sans-serif;
+$font-family-headline: "kepler-std-semicondensed-cap", serif;
 
-$screen-xs-max: 767px!default;
-$screen-sm-min: 768px!default;
-$screen-sm-max: 969px!default;
-$screen-md-min: 970px!default;
-$screen-md-max: 1169px!default;
-$screen-lg-min: 1170px!default;
+$screen-xs-max: 767px;
+$screen-sm-min: 768px;
+$screen-sm-max: 969px;
+$screen-md-min: 970px;
+$screen-md-max: 1169px;
+$screen-lg-min: 1170px;
 
-$brand-transition: 0.6s all!default;
+$brand-transition: 0.6s all;
 
 $grid-gutter-width: 20px;
 
@@ -67,12 +67,12 @@ a:hover, a:focus {
 }
 
 input[type="search"] {
-  background-image: url(./assets/images/icons/search.svg);
+  background-image: resolve('images/icons/search.svg');
   background-repeat: no-repeat;
   background-position: center right;
   background-size: 30px 28px;
   &.active {
-    background-image: url(./assets/images/icons/close.svg);
+    background-image: resolve('images/icons/close.svg');
   }
 }
 
@@ -85,6 +85,11 @@ input[type="search"] {
 .container {
   max-width: 1170px;
   margin: 0 auto;
+}
+
+.header {
+  //padding-top: 20px;
+  //padding-bottom: 20px;
 }
 
 .header,
@@ -190,7 +195,7 @@ input[type="search"] {
 }
 
 /* Burger */
-@import 'assets/styles/hamburger';
+@import 'assets/styles/_hamburger.scss';
 
 /* Pace */
 .pace {
